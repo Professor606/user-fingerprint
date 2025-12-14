@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "main": "serve.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }
