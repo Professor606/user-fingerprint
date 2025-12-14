@@ -106,7 +106,7 @@ app.get("/api/ipinfo", async (req, res) => {
   }
 });
 
-app.post("/log-data", (req, res) => {
+app.post("/api/data", (req, res) => {
   const hashes = req.body;
   hashes.userID = create4DigitId(hashes.fingerprints.deviceFingerprint);
   hashes.networkID = create4DigitId(

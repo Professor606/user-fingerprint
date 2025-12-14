@@ -219,13 +219,7 @@ async function getClientInfoAndHashes() {
   const hash3 = sha256(group3);
   const hash4 = sha256(group4);
   const hash5 = sha256(group5);
-
-  let hash6;
-  if (info.ip !== "Unavailable") {
-    hash6 = sha256(group6);
-  } else {
-    hash6 = "";
-  }
+  const hash6 = info.ip == "Unavailable" ? "" : sha256(group6);
 
   return {
     info,
@@ -240,14 +234,14 @@ async function getClientInfoAndHashes() {
   };
 }
 
-const logData = async (info) => {
+const sendData = async (info) => {
   const payload = {
     timestamp: new Date().toISOString(),
     fingerprints: info
   };
 
   try {
-    const response = await fetch('/log-data', {
+    const response = await fetch('/api/data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -255,11 +249,6 @@ const logData = async (info) => {
       body: JSON.stringify(payload)
     });
 
-    if (response.ok) {
-      console.log('Log sent successfully!');
-    } else {
-      console.error('Failed to send log:', response.statusText);
-    }
   } catch (error) {
     console.error('Network error:', error);
   }
@@ -267,10 +256,8 @@ const logData = async (info) => {
 
 window.addEventListener('DOMContentLoaded', async () => {
   const result = await getClientInfoAndHashes();
-  logData(result.hashes);
+  sendData(result.hashes);
   
   const display = document.getElementById('display');
-  if (display) {
-    display.textContent = JSON.stringify(result, null, 2);
-  }
+  if (display) display.textContent = JSON.stringify(result, null, 2);
 });
